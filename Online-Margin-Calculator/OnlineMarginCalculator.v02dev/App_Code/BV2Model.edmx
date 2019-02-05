@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BOXX_V2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="IntQuoteTrans">
+          <Key>
+            <PropertyRef Name="QuoteTransID" />
+          </Key>
+          <Property Name="QuoteTransID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuoteID" Type="int" Nullable="false" />
+          <Property Name="ItemID" Type="int" Nullable="false" />
+          <Property Name="ConfigItemInstanceID" Type="int" />
+          <Property Name="ts_Item" Type="varchar" MaxLength="100" />
+          <Property Name="ts_QuoteDescription" Type="varchar" MaxLength="100" />
+          <Property Name="ts_Price" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="ts_Cost" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IsBaseAssembly" Type="bit" Nullable="false" />
+          <Property Name="Qty" Type="int" Nullable="false" />
+          <Property Name="IsAcc" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BOXX_V2.dbo.tItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tItem">
+          <Key>
+            <PropertyRef Name="IsModel" />
+            <PropertyRef Name="StateID" />
+            <PropertyRef Name="FID_ItemImage" />
+            <PropertyRef Name="IMA_ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="nvarchar" MaxLength="255" />
+          <Property Name="Item" Type="nvarchar" MaxLength="100" />
+          <Property Name="ItemCatID" Type="nvarchar" MaxLength="255" />
+          <Property Name="Cost" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Show" Type="bit" />
+          <Property Name="IsAssembly" Type="bit" />
+          <Property Name="QuoteDesc" Type="nvarchar" MaxLength="255" />
+          <Property Name="MSRP" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="IsModel" Type="int" Nullable="false" />
+          <Property Name="UseMSRP" Type="bit" />
+          <Property Name="StateID" Type="int" Nullable="false" />
+          <Property Name="Specs" Type="ntext" />
+          <Property Name="FID_ItemImage" Type="nvarchar" MaxLength="103" Nullable="false" />
+          <Property Name="IMA_ItemID" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BOXX_V2.dbo.VW_OMCQuickShip' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_OMCQuickShip">
+          <Key>
+            <PropertyRef Name="OrderLineID" />
+          </Key>
+          <Property Name="OrderLineID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrderLineOrderID" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderLineParentLineID" Type="nvarchar" MaxLength="50" />
+          <Property Name="OrderLineUnitPriceWithVAT" Type="float" />
+          <Property Name="OrderLineProductID" Type="nvarchar" MaxLength="255" />
+          <Property Name="OrderLineProductName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BOXX_V2.dbo.VW_OMCWebItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_OMCWebItem">
+          <Key>
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="AccountingCost" />
+            <PropertyRef Name="StandardCost" />
+            <PropertyRef Name="QEItemID" />
+          </Key>
+          <Property Name="ItemID" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ComponentType" Type="nvarchar" MaxLength="30" />
+          <Property Name="AccountingCost" Type="money" Nullable="false" />
+          <Property Name="StandardCost" Type="money" Nullable="false" />
+          <Property Name="QEItemID" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BOXX_V2.dbo.VW_OMCWebQuote' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_OMCWebQuote">
+          <Key>
+            <PropertyRef Name="QuoteID" />
+          </Key>
+          <Property Name="QuoteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cudID" Type="nvarchar" MaxLength="100" />
+          <Property Name="OrderCustomerCompany" Type="nvarchar" MaxLength="255" />
+          <Property Name="CudXML" Type="xml" />
+          <Property Name="OrderLineProductID" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityContainer Name="BOXX_V2ModelStoreContainer">
+          <EntitySet Name="IntQuoteTrans" EntityType="Self.IntQuoteTrans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tItem" EntityType="Self.tItem" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tItem].[ItemID] AS [ItemID], 
+    [tItem].[Item] AS [Item], 
+    [tItem].[ItemCatID] AS [ItemCatID], 
+    [tItem].[Cost] AS [Cost], 
+    [tItem].[Show] AS [Show], 
+    [tItem].[IsAssembly] AS [IsAssembly], 
+    [tItem].[QuoteDesc] AS [QuoteDesc], 
+    [tItem].[MSRP] AS [MSRP], 
+    [tItem].[IsModel] AS [IsModel], 
+    [tItem].[UseMSRP] AS [UseMSRP], 
+    [tItem].[StateID] AS [StateID], 
+    [tItem].[Specs] AS [Specs], 
+    [tItem].[FID_ItemImage] AS [FID_ItemImage], 
+    [tItem].[IMA_ItemID] AS [IMA_ItemID]
+    FROM [dbo].[tItem] AS [tItem]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_OMCQuickShip" EntityType="Self.VW_OMCQuickShip" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_OMCQuickShip].[OrderLineID] AS [OrderLineID], 
+    [VW_OMCQuickShip].[OrderLineOrderID] AS [OrderLineOrderID], 
+    [VW_OMCQuickShip].[OrderLineParentLineID] AS [OrderLineParentLineID], 
+    [VW_OMCQuickShip].[OrderLineUnitPriceWithVAT] AS [OrderLineUnitPriceWithVAT], 
+    [VW_OMCQuickShip].[OrderLineProductID] AS [OrderLineProductID], 
+    [VW_OMCQuickShip].[OrderLineProductName] AS [OrderLineProductName]
+    FROM [dbo].[VW_OMCQuickShip] AS [VW_OMCQuickShip]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_OMCWebItem" EntityType="Self.VW_OMCWebItem" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_OMCWebItem].[ItemID] AS [ItemID], 
+    [VW_OMCWebItem].[ItemName] AS [ItemName], 
+    [VW_OMCWebItem].[ComponentType] AS [ComponentType], 
+    [VW_OMCWebItem].[AccountingCost] AS [AccountingCost], 
+    [VW_OMCWebItem].[StandardCost] AS [StandardCost], 
+    [VW_OMCWebItem].[QEItemID] AS [QEItemID]
+    FROM [dbo].[VW_OMCWebItem] AS [VW_OMCWebItem]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_OMCWebQuote" EntityType="Self.VW_OMCWebQuote" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_OMCWebQuote].[QuoteID] AS [QuoteID], 
+    [VW_OMCWebQuote].[cudID] AS [cudID], 
+    [VW_OMCWebQuote].[OrderCustomerCompany] AS [OrderCustomerCompany], 
+    [VW_OMCWebQuote].[CudXML] AS [CudXML], 
+    [VW_OMCWebQuote].[OrderLineProductID] AS [OrderLineProductID]
+    FROM [dbo].[VW_OMCWebQuote] AS [VW_OMCWebQuote]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BOXX_V2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tItem">
+          <Key>
+            <PropertyRef Name="IsModel" />
+            <PropertyRef Name="StateID" />
+            <PropertyRef Name="FID_ItemImage" />
+            <PropertyRef Name="IMA_ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Item" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ItemCatID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Show" Type="Boolean" />
+          <Property Name="IsAssembly" Type="Boolean" />
+          <Property Name="QuoteDesc" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MSRP" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsModel" Type="Int32" Nullable="false" />
+          <Property Name="UseMSRP" Type="Boolean" />
+          <Property Name="StateID" Type="Int32" Nullable="false" />
+          <Property Name="Specs" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FID_ItemImage" Type="String" MaxLength="103" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IMA_ItemID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VW_OMCQuickShip">
+          <Key>
+            <PropertyRef Name="OrderLineID" />
+          </Key>
+          <Property Name="OrderLineID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderLineOrderID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderLineParentLineID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OrderLineUnitPriceWithVAT" Type="Double" />
+          <Property Name="OrderLineProductID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OrderLineProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="VW_OMCWebItem">
+          <Key>
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="AccountingCost" />
+            <PropertyRef Name="StandardCost" />
+            <PropertyRef Name="QEItemID" />
+          </Key>
+          <Property Name="ItemID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ItemName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ComponentType" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="AccountingCost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="StandardCost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="QEItemID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VW_OMCWebQuote">
+          <Key>
+            <PropertyRef Name="QuoteID" />
+          </Key>
+          <Property Name="QuoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cudID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OrderCustomerCompany" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CudXML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OrderLineProductID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="BOXX_V2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tItems" EntityType="Self.tItem" />
+          <EntitySet Name="VW_OMCQuickShip" EntityType="Self.VW_OMCQuickShip" />
+          <EntitySet Name="VW_OMCWebItem" EntityType="Self.VW_OMCWebItem" />
+          <EntitySet Name="VW_OMCWebQuote" EntityType="Self.VW_OMCWebQuote" />
+          <EntitySet Name="IntQuoteTrans" EntityType="BOXX_V2Model.IntQuoteTran" />
+        </EntityContainer>
+        <EntityType Name="IntQuoteTran">
+          <Key>
+            <PropertyRef Name="QuoteTransID" />
+          </Key>
+          <Property Name="QuoteTransID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteID" Type="Int32" Nullable="false" />
+          <Property Name="ItemID" Type="Int32" Nullable="false" />
+          <Property Name="ConfigItemInstanceID" Type="Int32" />
+          <Property Name="ts_Item" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ts_QuoteDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ts_Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ts_Cost" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IsBaseAssembly" Type="Boolean" Nullable="false" />
+          <Property Name="Qty" Type="Int32" Nullable="false" />
+          <Property Name="IsAcc" Type="Boolean" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BOXX_V2ModelStoreContainer" CdmEntityContainer="BOXX_V2Entities">
+          <EntitySetMapping Name="tItems">
+            <EntityTypeMapping TypeName="BOXX_V2Model.tItem">
+              <MappingFragment StoreEntitySet="tItem">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="ItemCatID" ColumnName="ItemCatID" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="IsAssembly" ColumnName="IsAssembly" />
+                <ScalarProperty Name="QuoteDesc" ColumnName="QuoteDesc" />
+                <ScalarProperty Name="MSRP" ColumnName="MSRP" />
+                <ScalarProperty Name="IsModel" ColumnName="IsModel" />
+                <ScalarProperty Name="UseMSRP" ColumnName="UseMSRP" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="Specs" ColumnName="Specs" />
+                <ScalarProperty Name="FID_ItemImage" ColumnName="FID_ItemImage" />
+                <ScalarProperty Name="IMA_ItemID" ColumnName="IMA_ItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_OMCQuickShip">
+            <EntityTypeMapping TypeName="BOXX_V2Model.VW_OMCQuickShip">
+              <MappingFragment StoreEntitySet="VW_OMCQuickShip">
+                <ScalarProperty Name="OrderLineID" ColumnName="OrderLineID" />
+                <ScalarProperty Name="OrderLineOrderID" ColumnName="OrderLineOrderID" />
+                <ScalarProperty Name="OrderLineParentLineID" ColumnName="OrderLineParentLineID" />
+                <ScalarProperty Name="OrderLineUnitPriceWithVAT" ColumnName="OrderLineUnitPriceWithVAT" />
+                <ScalarProperty Name="OrderLineProductID" ColumnName="OrderLineProductID" />
+                <ScalarProperty Name="OrderLineProductName" ColumnName="OrderLineProductName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_OMCWebItem">
+            <EntityTypeMapping TypeName="BOXX_V2Model.VW_OMCWebItem">
+              <MappingFragment StoreEntitySet="VW_OMCWebItem">
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ComponentType" ColumnName="ComponentType" />
+                <ScalarProperty Name="AccountingCost" ColumnName="AccountingCost" />
+                <ScalarProperty Name="StandardCost" ColumnName="StandardCost" />
+                <ScalarProperty Name="QEItemID" ColumnName="QEItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_OMCWebQuote">
+            <EntityTypeMapping TypeName="BOXX_V2Model.VW_OMCWebQuote">
+              <MappingFragment StoreEntitySet="VW_OMCWebQuote">
+                <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
+                <ScalarProperty Name="cudID" ColumnName="cudID" />
+                <ScalarProperty Name="OrderCustomerCompany" ColumnName="OrderCustomerCompany" />
+                <ScalarProperty Name="CudXML" ColumnName="CudXML" />
+                <ScalarProperty Name="OrderLineProductID" ColumnName="OrderLineProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IntQuoteTrans">
+            <EntityTypeMapping TypeName="BOXX_V2Model.IntQuoteTran">
+              <MappingFragment StoreEntitySet="IntQuoteTrans">
+                <ScalarProperty Name="IsAcc" ColumnName="IsAcc" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="IsBaseAssembly" ColumnName="IsBaseAssembly" />
+                <ScalarProperty Name="ts_Cost" ColumnName="ts_Cost" />
+                <ScalarProperty Name="ts_Price" ColumnName="ts_Price" />
+                <ScalarProperty Name="ts_QuoteDescription" ColumnName="ts_QuoteDescription" />
+                <ScalarProperty Name="ts_Item" ColumnName="ts_Item" />
+                <ScalarProperty Name="ConfigItemInstanceID" ColumnName="ConfigItemInstanceID" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="QuoteID" ColumnName="QuoteID" />
+                <ScalarProperty Name="QuoteTransID" ColumnName="QuoteTransID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
